@@ -5,7 +5,7 @@ user "nelhage" do
   supports :manage_home => true
 end
 
-%w[sudoers www-data].each do |grp|
+%w[sudo www-data].each do |grp|
   group grp do
     action :modify
     members "nelhage"
@@ -16,10 +16,23 @@ end
 directory '/home/nelhage/.ssh' do
   owner 'nelhage'
   mode '0700'
+  action :create
+  recursive true
 end
 
 file '/home/nelhage/.ssh/authorized_keys' do
   owner   'nelhage'
+  mode    '0600'
+  content "#{node['nelhage']['ssh_keys'].join("\n")}\n"
+end
+
+directory '/root/.ssh' do
+  owner 'root'
+  mode '0700'
+end
+
+file '/root/.ssh/authorized_keys' do
+  owner   'root'
   mode    '0600'
   content "#{node['nelhage']['ssh_keys'].join("\n")}\n"
 end
