@@ -10,10 +10,6 @@
 include_recipe "nginx::repo"
 include_recipe "nginx"
 
-file "#{node['nginx']['dir']}/sites-enabled/000-default" do
-  action :delete
-end
-
 template 'ssl.conf' do
   path   "#{node['nginx']['dir']}/conf.d/ssl.conf"
   source 'ssl.conf.erb'
