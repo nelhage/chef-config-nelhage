@@ -5,6 +5,14 @@ user "nelhage" do
   supports :manage_home => true
 end
 
+%w[sudoers www-data].each do |grp|
+  group grp do
+    action :modify
+    members "nelhage"
+    append true
+  end
+end
+
 directory '/home/nelhage/.ssh' do
   owner 'nelhage'
   mode '0700'
