@@ -56,5 +56,5 @@ directory '/opt/www' do
   action :create
   owner  'nelhage'
   group  'www-data'
-  mode   '1755'
+  mode   '2755'
 end
