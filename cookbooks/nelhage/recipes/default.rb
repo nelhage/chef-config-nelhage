@@ -8,3 +8,5 @@
 #
 
 include_recipe "nelhage::nginx"
+include_recipe "nelhage::users"
+include_recipe "nelhage::packages"
