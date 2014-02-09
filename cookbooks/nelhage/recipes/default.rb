@@ -10,6 +10,7 @@
 include_recipe "nelhage::nginx"
 include_recipe "nelhage::users"
 include_recipe "nelhage::packages"
+include_recipe "nelhage::gitolite"
 
 include_recipe "golang"
 golang_package 'github.com/nelhage/daemonlogger'
