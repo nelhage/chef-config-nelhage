@@ -1,10 +1,15 @@
 #
 # Cookbook Name:: nelhage
-# Recipe:: default
+# Recipe:: packages
 #
 # Copyright 2014, Nelson Elhage
 #
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "nelhage::nginx"
+%w[emacs24-nox].each do |pkg|
+  package pkg do
+    action :upgrade
+  end
+end
+

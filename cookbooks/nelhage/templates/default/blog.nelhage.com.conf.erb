@@ -1,0 +1,29 @@
+server {
+  listen 80;
+  server_name blog.nelhage.com;
+
+  location / {
+    rewrite ^ https://blog.nelhage.com$request_uri? permanent;
+  }
+}
+
+server {
+  listen 443 ssl;
+
+  server_name blog.nelhage.com;
+
+  ssl_certificate /etc/ssl/certs/blog.nelhage.com.pem;
+  ssl_certificate_key /etc/ssl/certs/blog.nelhage.com.pem;
+
+  add_header Strict-Transport-Security max-age=31536000;
+
+  root /home/nelhage/web/blog.nelhage.com/;
+}
+
+server {
+  listen 80;
+
+  server_name blog-beta.nelhage.com;
+
+  root /home/nelhage/web/blog.nelhage.com/;
+}

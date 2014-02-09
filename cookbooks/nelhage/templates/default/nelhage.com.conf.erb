@@ -1,0 +1,47 @@
+server {
+  listen 80;
+  server_name nelhage.com;
+
+  location / {
+    rewrite ^ https://nelhage.com$request_uri? permanent;
+  }
+}
+
+server {
+  listen 80;
+  listen 443 ssl;
+
+  server_name www.nelhage.com;
+
+  ssl_certificate /etc/ssl/certs/www.nelhage.com.pem;
+  ssl_certificate_key /etc/ssl/certs/www.nelhage.com.pem;
+
+  location / {
+    rewrite ^ https://nelhage.com$request_uri? permanent;
+  }
+}
+
+server {
+  listen 443 ssl;
+
+  server_name nelhage.com;
+
+  ssl_certificate /etc/ssl/certs/www.nelhage.com.pem;
+  ssl_certificate_key /etc/ssl/certs/www.nelhage.com.pem;
+
+  add_header Strict-Transport-Security max-age=31536000;
+
+  root /home/nelhage/www;
+
+  location /blog {
+    rewrite ^/blog(.*) http://blog.nelhage.com$1;
+  }
+
+  location ~ "^/(git|bughunting|files/(stars|Troy)|poc\|\|gtfo)" {
+    autoindex on;
+  }
+
+  location /money/ajax/ {
+    proxy_pass http://127.0.0.1:19080$uri;
+  }
+}
