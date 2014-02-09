@@ -36,3 +36,10 @@ file '/root/.ssh/authorized_keys' do
   mode    '0600'
   content "#{node['nelhage']['ssh_keys'].join("\n")}\n"
 end
+
+file '/etc/sudoers.d/01-nelhage' do
+  owner 'root'
+  group 'root'
+  mode  '0600'
+  content "%sudo ALL=NOPASSWD:ALL\n"
+end
