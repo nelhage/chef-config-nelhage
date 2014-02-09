@@ -31,7 +31,7 @@ server {
 
   add_header Strict-Transport-Security max-age=31536000;
 
-  root /home/nelhage/www;
+  root /www/nelhage.com/;
 
   location /blog {
     rewrite ^/blog(.*) http://blog.nelhage.com$1;

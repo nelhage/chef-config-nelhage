@@ -51,3 +51,10 @@ file "/etc/ssl/certs/blog.nelhage.com.pem" do
   group   'root'
   mode    '0600'
 end
+
+directory '/opt/www' do
+  action :create
+  owner  'nelhage'
+  group  'www-data'
+  mode   '1755'
+end
