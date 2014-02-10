@@ -13,6 +13,14 @@ end
   end
 end
 
+directory '/home/nelhage' do
+  owner 'nelhage'
+  group 'nelhage'
+  mode '0700'
+  action :create
+  recursive true
+end
+
 directory '/home/nelhage/.ssh' do
   owner 'nelhage'
   mode '0700'
