@@ -2,7 +2,7 @@
 
 set -ex
 
-if !type knife >/dev/null 2>&1; then
+if ! type knife >/dev/null 2>&1; then
     curl -L https://www.opscode.com/chef/install.sh | bash
 fi
 
