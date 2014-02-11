@@ -1,10 +1,4 @@
-package "nodejs" do
-  action [ :install, :upgrade ]
-end
-
-package "nodejs-legacy" do
-  action [ :install, :upgrade ]
-end
+include_recipe "nodejs"
 
 daemontools_service "money-srv" do
   directory "/etc/sv/money-srv"
