@@ -6,12 +6,12 @@ hostname="$1"
 chef="$(readlink -f "$(dirname $(readlink -f "$0"))/..")"
 
 _ssh() {
-    ssh -lubuntu -i ~/.ssh/aws/id_rsa-us-west-2 "$hostname" "$@"
+    ssh -lroot "$hostname" "$@"
 }
 
-_ssh mkdir -p chef-repo
+_ssh mkdir -p /etc/chef/repo
 
-rsync --rsh='ssh -i /home/nelhage/.ssh/aws/id_rsa-us-west-2' -Pax "$chef/." ubuntu@"$hostname":chef-repo/
+rsync -Pax "$chef/." "$hostname":/etc/chef/repo/
 
-pw get nelhage.com/site.json | _ssh "cat > site.json"
+pw get nelhage.com/site.json | _ssh "cat > /etc/chef/site.json"
 _ssh "sudo /home/ubuntu/chef-repo/bootstrap/inner.sh"
