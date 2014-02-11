@@ -57,7 +57,7 @@ action :enable do
       owner new_resource.owner
       group new_resource.group
       mode 0755
-      variables :variables => new_resource.variables unless new_resource.variables.empty?
+      variables new_resource.variables unless new_resource.variables.empty?
     end
     if new_resource.log
       directory "#{new_resource.directory}/log" do
@@ -71,7 +71,7 @@ action :enable do
         owner new_resource.owner
         group new_resource.group
         mode 0755
-        variables :variables => new_resource.variables unless new_resource.variables.empty?
+        variables new_resource.variables unless new_resource.variables.empty?
       end
     end
     template "#{new_resource.directory}/finish" do
@@ -80,7 +80,7 @@ action :enable do
       owner new_resource.owner
       group new_resource.group
       mode 0755
-      variables :variables => new_resource.variables unless new_resource.variables.empty?
+      variables new_resource.variables unless new_resource.variables.empty?
       only_if { new_resource.finish }
     end
   end
