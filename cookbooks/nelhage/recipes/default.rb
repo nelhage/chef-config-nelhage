@@ -9,7 +9,7 @@
 
 include_recipe "golang"
 
-include_recipe "nelhage::slash-opt"
+include_recipe "nelhage::directories"
 
 include_recipe "nelhage::nginx"
 include_recipe "nelhage::gitolite"
