@@ -7,11 +7,15 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "nelhage::nginx"
-include_recipe "nelhage::packages"
-include_recipe "nelhage::gitolite"
-
 include_recipe "golang"
-golang_package 'github.com/nelhage/daemonlogger'
+
+include_recipe "nelhage::slash-opt"
+
+include_recipe "nelhage::nginx"
+include_recipe "nelhage::gitolite"
+include_recipe "nelhage::daemontools"
+include_recipe "nelhage::money"
+
+include_recipe "nelhage::packages"
 
 include_recipe "nelhage::users"

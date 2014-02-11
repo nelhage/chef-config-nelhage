@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-include_recipe "ucspi-tcp"
+# include_recipe "ucspi-tcp"
 
 case node['daemontools']['install_method']
 when "package"
