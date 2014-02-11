@@ -54,3 +54,10 @@ directory '/opt/www' do
   group  'www-data'
   mode   '2755'
 end
+
+directory '/opt/services' do
+  action :create
+  owner  'nelhage'
+  group  'nelhage'
+  mode   '755'
+end
