@@ -18,7 +18,7 @@ apt_repository 'cassou_emacs' do
 end
 
 %w[emacs24-nox ncdu liblocal-lib-perl irssi tree python-virtualenv
-   python-dev mutt].each do |pkg|
+   python-dev mutt build-essential texinfo].each do |pkg|
   package pkg do
     action :upgrade
   end

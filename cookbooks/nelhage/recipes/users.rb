@@ -48,6 +48,6 @@ end
 file '/etc/sudoers.d/01-nelhage' do
   owner 'root'
   group 'root'
-  mode  '0600'
+  mode  '0440'
   content "%sudo ALL=NOPASSWD:ALL\n"
 end
