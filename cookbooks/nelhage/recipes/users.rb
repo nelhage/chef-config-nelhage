@@ -5,7 +5,7 @@ user "nelhage" do
   supports :manage_home => true
 end
 
-%w[sudo www-data].each do |grp|
+%w[sudo www-data git].each do |grp|
   group grp do
     action :modify
     members "nelhage"
