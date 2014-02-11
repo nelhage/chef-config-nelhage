@@ -18,3 +18,10 @@ directory '/opt/conf' do
   group  'nelhage'
   mode   '755'
 end
+
+directory '/data/log/' do
+  action :create
+  owner  'root'
+  group  'root'
+  mode   '755'
+end
