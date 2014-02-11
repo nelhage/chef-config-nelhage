@@ -17,7 +17,7 @@ apt_repository 'cassou_emacs' do
   notifies :run, "execute[apt-get update]", :immediately
 end
 
-%w[emacs24-nox].each do |pkg|
+%w[emacs24-nox ncdu].each do |pkg|
   package pkg do
     action :upgrade
   end
