@@ -7,8 +7,8 @@ if ! type knife >/dev/null 2>&1; then
 fi
 
 cat > /etc/chef/solo.rb <<EOF
-file_cache_path "/home/ubuntu/chef-solo/"
-cookbook_path "/home/ubuntu/chef-repo/cookbooks"
+file_cache_path "/etc/chef/solo/"
+cookbook_path "/etc/chef/repo/cookbooks"
 EOF
 
 chef-solo -c /etc/chef/solo.rb -j /etc/chef/site.json
