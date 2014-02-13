@@ -17,10 +17,15 @@ apt_repository 'cassou_emacs' do
   notifies :run, "execute[apt-get update]", :immediately
 end
 
-%w[emacs24-nox ncdu liblocal-lib-perl irssi tree python-virtualenv
-   python-dev mutt build-essential texinfo].each do |pkg|
+
+ZEPHYR_DEPS = %w[libzephyr4-krb5 libzephyr-dev comerr-dev krb5-user zephyr-clients]
+BUILD_DEPS = %w[build-essential texinfo pkg-config libperl-dev
+   libssl-dev autoconf libncursesw5-dev libglib2.0-dev zip
+   python-virtualenv liblocal-lib-perl python-dev]
+MISC_PACKAGES = %w[emacs24-nox ncdu stow tree mutt irssi]
+
+(ZEPHYR_DEPS + BUILD_DEPS + MISC_PACKAGES).each do |pkg|
   package pkg do
     action :upgrade
   end
 end
-
