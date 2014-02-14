@@ -9,3 +9,6 @@ version          '0.1.0'
 depends "golang"
 depends "nginx"
 depends "daemontools"
+depends "tarsnap"
+depends "cron"
+
