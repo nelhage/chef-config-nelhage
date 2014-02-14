@@ -1,0 +1,106 @@
+{
+  "name": "tarsnap",
+  "description": "Installs/Configures tarsnap",
+  "long_description": "Tarsnap cookbook\n================\n\nThis cookbook installs and configures [tarsnap](https://www.tarsnap.com). Optionally it can also\ninstall and configure [tarsnapper](https://github.com/miracle2k/tarsnapper).\n\nRequirements\n============\n\n## Platforms:\n\n* FreeBSD 8.x and 9.x\n* Ubuntu 10.04, 11.10 and 12.04\n* Debian 6.x\n* CentOS 5.8 and 6.3\n\nWarning: at the moment the tarsnapper recipe is somewhat broken on CentOS 5.8.\n\nTests\n=====\n\nThis cookbook in the [source repository](https://github.com/andreacampi/tarsnap-cookbook) contains minitest tests.\n\nAttributes\n==========\n\nGeneral settings\n----------------\n\n* `node['tarsnap']['version']` - The version of tarsnap to install. Defaults to \"1.0.32\".\n* `node['tarsnap']['cachedir']` - Value for cachedir directive. Defaults to \"/usr/local/tarsnap-cache\".\n\nPlatform specific\n-----------------\n\nIn order to support the broadest number of platforms, several attributes are determined based on the node's platform. See the attributes/default.rb file for default values in the case statement.\n\n* `node['tarsnap']['install_method']` - Can be either `ports` (for FreeBSD) or `source` (for distros that don't have a pre-packaged version of tarsnap).\n* `node['tarsnap']['conf_dir']` - The directory where configuration files should be stored.\n* `node['tarsnap']['private_key']` - The private key for connecting to tarsnap.\n\nTarsnapper settings\n-------------------\n\n* `node['tarsnapper']['retention']` - How long to retain the backups; see the [documentation](https://github.com/miracle2k/tarsnapper) for tarsnapper.\n* `node['tarsnapper']['packages']` - Platform-specific dependencies for tarsnapper.\n\nRecipes\n=======\n\ndefault\n-------\n\nThe default recipe installs tarsnap by calling the appropriate recipe, then builds a configuration file.\n\nDue to tarsnap's security model, you will need to manually create a key on each node.\n\nfreebsd\n-------\n\nInstalls tarsnap from FreeBSD ports.\n\nsources\n-------\n\nBuild and installs tarsnap from a source tarball.\n\ntarsnapper\n----------\n\nInstalls and configures tarsnapper.\n\nLicense and Authors\n===================\n\nAuthor:: Andrea Campi <andrea.campi@zephirworks.com>\n\nCopyright:: 2011-2012, ZephirWorks\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "ZephirWorks",
+  "maintainer_email": "andrea.campi@zephirworks.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "centos": ">= 0.0.0",
+    "freebsd": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0",
+    "debian": ">= 0.0.0"
+  },
+  "dependencies": {
+    "build-essential": ">= 0.0.0",
+    "git": ">= 0.0.0",
+    "python": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+    "tarsnap": {
+      "display_name": "tarsnap",
+      "description": "Hash of tarsnap attributes",
+      "type": "hash",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "tarsnap/cachedir": {
+      "display_name": "tarsnap cachedir",
+      "description": "Path to the tarsnap cache dir",
+      "default": "/usr/local/tarsnap-cache",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "tarsnap/conf_dir": {
+      "display_name": "tarsnap config dir",
+      "description": "Path to the tarsnap config dir",
+      "default": "/etc",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "tarsnap/private_key": {
+      "display_name": "tarsnap private key",
+      "description": "Path to the tarsnap private key file",
+      "default": "/etc/tarsnap.key",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "tarsnap/retention": {
+      "display_name": "tarsnap retention policy",
+      "description": "Retention policy of tarsnap backups",
+      "default": "1d 7d 30d 3650d",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    }
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "tarsnap": "Installs tarsnap"
+  },
+  "version": "0.1.2"
+}

@@ -1,0 +1,12 @@
+deltas: <%= node['tarsnapper']['retention'] %>
+target: $name-$date
+
+jobs:
+  base:
+    sources:
+      - /etc
+      - /usr/local/etc
+      - /var/cron
+  logs:
+    sources:
+      - /var/log
