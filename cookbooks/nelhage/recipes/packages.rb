@@ -31,8 +31,10 @@ end
 ZEPHYR_DEPS = %w[libzephyr4-krb5 libzephyr-dev comerr-dev krb5-user zephyr-clients]
 BUILD_DEPS = %w[build-essential texinfo pkg-config libperl-dev
    libssl-dev autoconf libncursesw5-dev libglib2.0-dev zip
-   python-virtualenv liblocal-lib-perl python-dev]
-MISC_PACKAGES = %w[emacs24-nox ncdu stow tree mutt irssi mosh]
+   python-virtualenv liblocal-lib-perl python-dev
+   libxml2-dev libxslt-dev]
+MISC_PACKAGES = %w[emacs24-nox ncdu stow tree mutt irssi
+                   mosh finger]
 
 (ZEPHYR_DEPS + BUILD_DEPS + MISC_PACKAGES).each do |pkg|
   package pkg do
