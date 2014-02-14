@@ -11,4 +11,5 @@ depends "nginx"
 depends "daemontools"
 depends "tarsnap"
 depends "cron"
+depends "python"
 
