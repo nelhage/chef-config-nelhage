@@ -12,4 +12,4 @@ depends "daemontools"
 depends "tarsnap"
 depends "cron"
 depends "python"
-
+depends "postfix"
