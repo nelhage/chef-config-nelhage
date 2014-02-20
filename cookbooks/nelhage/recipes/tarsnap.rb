@@ -24,9 +24,17 @@ directory '/data/tarsnap.cache' do
   mode  '0700'
 end
 
+file '/usr/local/bin/nightly-tarsnap' do
+  action :create
+  owner 'root'
+  group 'root'
+  mode '0755'
+  content %q{/usr/local/bin/tarsnap --keyfile /etc/tarsnap/tarsnap.key --cachedir /data/tarsnap.cache/ -c -f "nelhage.com-$(date +%Y%m%d-%H%M)" /data/archived /data/backup /opt /data/home}
+end
+
 cron_d "tarsnap" do
   action :create
   minute "0"
   hour   "12"
-  command %q{/usr/local/bin/tarsnap --keyfile /etc/tarsnap/tarsnap.key --cachedir /data/tarsnap.cache/ -c -f "nelhage.com-$(date +%Y%m%d-%H%M)" /data/archived /data/backup /opt /data/home}
+  command '/usr/local/bin/nightly-tarsnap'
 end
