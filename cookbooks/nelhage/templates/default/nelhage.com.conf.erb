@@ -41,6 +41,10 @@ server {
     autoindex on;
   }
 
+  location /paste/ {
+    default_type text/plain;
+  }
+
   location /money/ajax/ {
     proxy_pass http://127.0.0.1:19080$uri;
   }
