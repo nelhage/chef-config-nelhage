@@ -34,7 +34,7 @@ BUILD_DEPS = %w[build-essential texinfo pkg-config libperl-dev
    python-virtualenv liblocal-lib-perl python-dev
    libxml2-dev libxslt-dev cython]
 MISC_PACKAGES = %w[emacs24-nox ncdu stow tree mutt irssi
-                   mosh finger]
+                   mosh finger gdb]
 
 (ZEPHYR_DEPS + BUILD_DEPS + MISC_PACKAGES).each do |pkg|
   package pkg do
