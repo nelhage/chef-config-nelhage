@@ -22,3 +22,8 @@ include_recipe "nelhage::tarsnap"
 
 include_recipe "nelhage::users"
 include_recipe "nelhage::packages"
+
+
+sysctl_param 'kernel.yama.ptrace_scope' do
+  value '0'
+end
