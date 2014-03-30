@@ -5,7 +5,7 @@ user "nelhage" do
   supports :manage_home => true
 end
 
-%w[sudo www-data git].each do |grp|
+node['nelhage']['users']['extra_groups'].each do |grp|
   group grp do
     action :modify
     members "nelhage"
@@ -31,7 +31,7 @@ end
 file '/home/nelhage/.ssh/authorized_keys' do
   owner   'nelhage'
   mode    '0600'
-  content "#{node['nelhage']['ssh_keys'].join("\n")}\n"
+  content "#{node['nelhage']['users']['ssh_keys'].join("\n")}\n"
 end
 
 directory '/root/.ssh' do
@@ -42,7 +42,7 @@ end
 file '/root/.ssh/authorized_keys' do
   owner   'root'
   mode    '0600'
-  content "#{node['nelhage']['ssh_keys'].join("\n")}\n"
+  content "#{node['nelhage']['users']['ssh_keys'].join("\n")}\n"
 end
 
 file '/etc/sudoers.d/01-nelhage' do
