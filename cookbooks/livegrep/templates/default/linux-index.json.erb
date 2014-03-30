@@ -1,0 +1,13 @@
+{
+    "name": "Linux <%= node['livegrep']['linux']['version'] %>",
+    "repositories": [
+        {
+            "path": "/opt/livegrep/linux/",
+            "name": "linux",
+            "revisions": [ "<%= node['livegrep']['linux']['version'] %>" ],
+            "metadata": {
+                "github": "torvalds/linux"
+            }
+        }
+    ]
+}

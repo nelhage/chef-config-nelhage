@@ -3,7 +3,7 @@
 set -ex
 
 hostname="$1"
-site="${2-hostname}"
+site="${2-$hostname}"
 chef="$(readlink -f "$(dirname $(readlink -f "$0"))/..")"
 
 if ! [ "ok" = "$(ssh -lroot "$hostname" echo ok)" ]; then

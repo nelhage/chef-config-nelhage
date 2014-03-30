@@ -14,6 +14,7 @@ include_recipe "nelhage::directories"
 include_recipe "nelhage::mail"
 
 include_recipe "nelhage::nginx"
+include_recipe "nelhage::websites"
 include_recipe "nelhage::gitolite"
 include_recipe "nelhage::daemontools"
 include_recipe "nelhage::money"
