@@ -17,12 +17,8 @@ template 'partychat.yaml' do
   path '/opt/conf/partychat.yaml'
 end
 
-daemontools_service "party-zephyr" do
-  directory "/etc/sv/party-zephyr"
-  template 'generic'
-  variables(:service => 'party-zephyr',
-            :user => 'nelhage',
-            :command => '/opt/services/party-zephyr/.virtualenv/bin/python /opt/services/party-zephyr/party-zephyr.py /opt/conf/partychat.yaml')
-  action [ :enable, :start ]
-  log true
+nelhage_service "party-zephyr" do
+  command '/opt/services/party-zephyr/.virtualenv/bin/python /opt/services/party-zephyr/party-zephyr.py /opt/conf/partychat.yaml'
+  user 'nelhage'
+  rotate false
 end
