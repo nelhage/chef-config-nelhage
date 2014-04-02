@@ -1,2 +1,2 @@
 #!/bin/sh
-exec /opt/go/bin/daemonlogger /data/log/<%= @service %>.log
+exec /opt/go/bin/unilog -a <%= @service %> /data/log/<%= @service %>.log
