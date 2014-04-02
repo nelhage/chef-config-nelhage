@@ -9,3 +9,7 @@ directory '/etc/sv' do
   group 'root'
   mode '0755'
 end
+
+service 'svscan' do
+  action :start
+end

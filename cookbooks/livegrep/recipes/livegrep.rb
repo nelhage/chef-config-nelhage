@@ -38,24 +38,12 @@ git "/opt/livegrep/linux" do
   repository 'http://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
 end
 
-daemontools_service "livegrep" do
-  directory "/etc/sv/livegrep"
-  cookbook 'nelhage'
-  template 'generic'
-  variables(:service => 'livegrep',
-            :user    => 'nelhage',
-            :command => '/opt/services/livegrep/current/livegrep -logtostderr -docroot /opt/services/livegrep/current/web -production /opt/livegrep/livegrep.json')
-  action [ :enable, :start ]
-  log true
+nelhage_service "livegrep" do
+  command '/opt/services/livegrep/current/livegrep -logtostderr -docroot /opt/services/livegrep/current/web -production /opt/livegrep/livegrep.json'
+  user 'nelhage'
 end
 
-daemontools_service "livegrep-linux" do
-  directory "/etc/sv/livegrep-linux"
-  cookbook 'nelhage'
-  template 'generic'
-  variables(:service => 'livegrep-linux',
-            :user    => 'nelhage',
-            :command => "/opt/services/livegrep/current/codesearch --load_index /opt/livegrep/linux.idx --listen tcp://127.0.0.1:#{node['livegrep']['linux']['port']}")
-  action [ :enable, :start ]
-  log true
+nelhage_service "livegrep-linux" do
+  command "/opt/services/livegrep/current/codesearch --load_index /opt/livegrep/linux.idx --listen tcp://127.0.0.1:#{node['livegrep']['linux']['port']}"
+  user "nelhage"
 end
