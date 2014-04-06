@@ -39,7 +39,7 @@ git "/opt/livegrep/linux" do
 end
 
 nelhage_service "livegrep" do
-  command '/opt/services/livegrep/current/livegrep -logtostderr -docroot /opt/services/livegrep/current/web -production /opt/livegrep/livegrep.json'
+  command '/opt/services/livegrep/current/livegrep -logtostderr -docroot /opt/services/livegrep/current/web /opt/livegrep/livegrep.json'
   user 'nelhage'
 end
 
