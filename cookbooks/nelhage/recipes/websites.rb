@@ -1,3 +1,5 @@
+include_recipe "nelhage::nginx"
+
 template 'ssl.conf' do
   path   "#{node['nginx']['dir']}/conf.d/ssl.conf"
   source 'ssl.conf.erb'

@@ -1,3 +1,6 @@
+include_recipe "nelhage"
+include_recipe "nelhage::nginx"
+
 directory '/opt/services/livegrep' do
   action :create
   owner  'nelhage'

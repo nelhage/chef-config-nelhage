@@ -16,7 +16,7 @@ _ssh() {
 
 _ssh mkdir -p /etc/chef/repo
 
-rsync -Pax "$chef/." root@"$hostname":/etc/chef/repo/
+rsync --delete -Pax "$chef/." root@"$hostname":/etc/chef/repo/
 
 _ssh "touch /etc/chef/site.json && chmod 700 /etc/chef/site.json"
 pw get "$site/site.json" | _ssh "cat > /etc/chef/site.json"
