@@ -8,6 +8,7 @@
 #
 
 include_recipe "golang"
+include_recipe "apt"
 
 include_recipe "nelhage::directories"
 include_recipe "nelhage::mail"

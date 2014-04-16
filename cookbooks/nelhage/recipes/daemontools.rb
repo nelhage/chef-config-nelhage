@@ -11,5 +11,6 @@ directory '/etc/sv' do
 end
 
 service 'svscan' do
+  provider Chef::Provider::Service::Upstart
   action :start
 end
