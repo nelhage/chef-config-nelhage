@@ -37,6 +37,12 @@ template 'livegrep.json' do
   mode '644'
 end
 
+template 'rebuild-index' do
+  path '/opt/livegrep/rebuild-index'
+  action :create
+  mode '755'
+end
+
 git "/opt/livegrep/linux" do
   repository 'http://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
 end
