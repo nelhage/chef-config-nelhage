@@ -3,6 +3,30 @@ yum Cookbook CHANGELOG
 This file is used to list changes made in each version of the yum cookbook.
 
 
+v3.2.0 (2014-04-09)
+-------------------
+- [COOK-4510] - Adding username and password parameters to node attributes
+- [COOK-4518] - Fix Scientific Linux distroverpkg
+
+
+v3.1.6 (2014-03-27)
+-------------------
+- [COOK-4463] - support multiple GPG keys
+- [COOK-4364] - yum_repository delete action fails
+
+
+v3.1.4 (2014-03-12)
+-------------------
+- [COOK-4417] Expand test harness to encompass 32-bit boxes
+
+
+v3.1.2 (2014-02-23)
+-------------------
+Fixing bugs around :delete action and cache clean
+Fixing specs to cover :remove and :delete aliasing properly
+Adding Travis-ci build matrix bits
+
+
 v3.1.0 (2014-02-13)
 -------------------
 - Updating testing harness for integration testing on Travis-ci
