@@ -2,6 +2,16 @@ yum-epel Cookbook CHANGELOG
 ======================
 This file is used to list changes made in each version of the yum-centos cookbook.
 
+v0.3.6 (2014-04-09)
+-------------------
+- [COOK-4509] add RHEL7 support to yum-epel cookbook
+
+
+v0.3.4 (2014-02-19)
+-------------------
+COOK-4353 - Fixing typo in readme
+
+
 v0.3.2 (2014-02-13)
 -------------------
 Updating README to explain the 'managed' parameter
