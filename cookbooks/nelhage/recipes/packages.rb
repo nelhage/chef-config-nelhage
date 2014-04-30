@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include "nelhage::login_packages"
+include_recipe "nelhage::login_packages"
 
 apt_repository 'mosh' do
   uri 'http://ppa.launchpad.net/keithw/mosh/ubuntu'
