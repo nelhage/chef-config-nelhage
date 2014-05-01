@@ -17,6 +17,7 @@ file '/usr/local/bin/update-mongo-rss' do
   content <<EOF
 #!/bin/sh
 curl -so /opt/www/nelhage.com/files/mongo-p2-closed.rss 'https://jira.mongodb.org/sr/jira.issueviews:searchrequest-rss/temp/SearchRequest.xml?jqlQuery=project+%3D+SERVER+AND+resolution+%3D+Fixed+AND+%28+priority+%3D+%22Critical+-+P2%22++OR+priority+%3D+%22Blocker+-+P1%22%29&tempMax=1000'
+curl -so /opt/www/nelhage.com/files/mongo-p2-all.rss 'https://jira.mongodb.org/sr/jira.issueviews:searchrequest-rss/temp/SearchRequest.xml?jqlQuery=project+%3D+SERVER+AND+%28priority+%3D+%22Critical+-+P2%22+OR+priority+%3D+%22Blocker+-+P1%22%29&tempMax=1000'
 EOF
   mode '755'
   owner 'nelhage'
