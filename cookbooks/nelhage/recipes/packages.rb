@@ -25,7 +25,7 @@ BUILD_DEPS = %w[build-essential texinfo pkg-config libperl-dev
    libssl-dev autoconf libncursesw5-dev libglib2.0-dev zip
    liblocal-lib-perl libxml2-dev libxslt-dev cython]
 MISC_PACKAGES = %w[ncdu stow mutt irssi
-                   mosh finger]
+                   mosh finger ntp]
 
 (ZEPHYR_DEPS + BUILD_DEPS + MISC_PACKAGES).each do |pkg|
   package pkg do
