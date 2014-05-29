@@ -10,5 +10,9 @@
     "feedback": {
       "mailto": "nelhage@nelhage.com"
     },
-    "reverse_proxy": true
+    "reverse_proxy": true,
+    "sentry": {
+        "uri": "<%= node['livegrep']['sentry']['uri'] %>"
+    },
+    "listen": "0.0.0.0:8910"
 }
