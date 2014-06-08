@@ -48,11 +48,11 @@ git "/opt/livegrep/linux" do
 end
 
 nelhage_service "livegrep" do
-  command '/opt/services/livegrep/current/livegrep -logtostderr -docroot /opt/services/livegrep/current/web /opt/livegrep/livegrep.json'
+  command '/opt/services/livegrep/current/bin/livegrep -logtostderr -docroot /opt/services/livegrep/current/web /opt/livegrep/livegrep.json'
   user 'nelhage'
 end
 
 nelhage_service "livegrep-linux" do
-  command "/opt/services/livegrep/current/codesearch --load_index /opt/livegrep/linux.idx --listen tcp://127.0.0.1:#{node['livegrep']['linux']['port']}"
+  command "/opt/services/livegrep/current/bin/codesearch --load_index /opt/livegrep/linux.idx --listen tcp://127.0.0.1:#{node['livegrep']['linux']['port']}"
   user "nelhage"
 end
