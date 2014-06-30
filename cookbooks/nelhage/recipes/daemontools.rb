@@ -1,6 +1,5 @@
 include_recipe "daemontools"
 
-golang_package 'github.com/nelhage/daemonlogger'
 golang_package 'github.com/stripe/unilog'
 
 directory '/etc/sv' do
