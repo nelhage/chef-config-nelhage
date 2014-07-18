@@ -1,6 +1,25 @@
 include_recipe "nelhage"
 include_recipe "nelhage::nginx"
 
+apt_repository 'livegrep' do
+  uri 'http://ppa.launchpad.net/nelhage/livegrep/ubuntu'
+  distribution node['lsb']['codename']
+  components ['main']
+  keyserver "keyserver.ubuntu.com"
+  key "C4053B4982A311903BC05433C1D03F5DD176C786"
+  action :add
+  notifies :run, "execute[apt-get update]", :immediately
+end
+
+["libjson0-dev", "libgflags-dev", "libgit2-dev", "libboost-dev",
+  "libsparsehash-dev", "libboost-filesystem-dev",
+  "libboost-system-dev", "build-essential"].each do |package|
+  package package do
+    action :install
+  end
+end
+
+
 directory '/opt/services/livegrep' do
   action :create
   owner  'nelhage'
@@ -45,6 +64,12 @@ end
 
 git "/opt/livegrep/linux" do
   repository 'http://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
+end
+
+git "/opt/livegrep/git" do
+  repository 'git://github.com/livegrep/livegrep'
+  user 'nelhage'
+  group 'nelhage'
 end
 
 nelhage_service "livegrep" do
