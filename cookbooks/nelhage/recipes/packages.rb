@@ -9,14 +9,16 @@
 
 include_recipe "nelhage::login_packages"
 
-apt_repository 'mosh' do
-  uri 'http://ppa.launchpad.net/keithw/mosh/ubuntu'
-  distribution node['lsb']['codename']
-  components ['main']
-  keyserver "keyserver.ubuntu.com"
-  key "F2923D3F37FEF230BDDC376E3EB9326A7BF6DFCD"
-  action :add
-  notifies :run, "execute[apt-get update]", :immediately
+if node['lsb']['release'] < '14.04'
+  apt_repository 'mosh' do
+    uri 'http://ppa.launchpad.net/keithw/mosh/ubuntu'
+    distribution node['lsb']['codename']
+    components ['main']
+    keyserver "keyserver.ubuntu.com"
+    key "F2923D3F37FEF230BDDC376E3EB9326A7BF6DFCD"
+    action :add
+    notifies :run, "execute[apt-get update]", :immediately
+  end
 end
 
 
