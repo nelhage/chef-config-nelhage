@@ -23,6 +23,7 @@ end
 nginx_site 'asciisnowmanforyou.com'
 nginx_site 'nelhage.com'
 nginx_site 'blog.nelhage.com'
+nginx_site 'blog-beta.nelhage.com'
 
 file "/etc/ssl/certs/www.nelhage.com.pem" do
   content "#{node['nelhage']['ssl']['www.nelhage.com']}"
