@@ -4,7 +4,11 @@ set -ex
 
 hostname="$1"
 site="${2-$hostname}"
-chef="$(readlink -f "$(dirname $(readlink -f "$0"))/..")"
+readlink=readlink
+if type greadlink >&/dev/null; then
+    readlink=greadlink
+fi
+chef="$($readlink -f "$(dirname $($readlink -f "$0"))/..")"
 
 if ! [ "ok" = "$(ssh -lroot "$hostname" echo ok)" ]; then
     ssh -lubuntu "$hostname" sudo tee /root/.ssh/authorized_keys < ~/.ssh/id_rsa.pub
