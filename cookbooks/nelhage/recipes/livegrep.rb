@@ -13,7 +13,7 @@ end
 
 ["libjson0-dev", "libgflags-dev", "libgit2-dev", "libboost-dev",
   "libsparsehash-dev", "libboost-filesystem-dev",
-  "libboost-system-dev", "build-essential"].each do |package|
+  "libboost-system-dev", "build-essential", "cmake"].each do |package|
   package package do
     action :install
   end
