@@ -13,7 +13,7 @@ Chef cookbook for [Go programming language](http://golang.org/).
 
 **Notes**: This cookbook has been tested on the listed platforms. It
 may work on other platforms with or without modification. Please
-[report issues](/issues) any additional platforms so they can be added.
+[report issues](https://github.com/NOX73/chef-golang/issues) any additional platforms so they can be added.
 
 
 ## <a name="usage"></a> Usage
@@ -64,7 +64,7 @@ To install Go packages using node attributes, include `golang::packages` in your
     <td><tt>['go']['version']</tt></td>
     <td>String</td>
     <td>Go version</td>
-    <td><tt>1.2</tt></td>
+    <td><tt>1.3</tt></td>
   </tr>
   <tr>
     <td><tt>['go']['platform']</tt></td>
@@ -120,13 +120,3 @@ satisfied:
 3. Write you change
 4. Test it by running `rake kitchen:all`
 5. Submit a Pull Request
-
-## <a name="contributors"></a> Contributors
-
-* **[@akalyaev](https://github.com/akalyaev)**
-* **[@xaprb](https://github.com/xaprb)**
-* **[@crowdmatt](https://github.com/crowdmatt)**
-* **[@buth](https://github.com/buth)**
-* **[@computerlyrik](https://github.com/computerlyrik)**
-* **[@pseudomuto](https://github.com/pseudomuto)**
-
