@@ -1,5 +1,6 @@
 include_recipe "nelhage"
 include_recipe "nelhage::nginx"
+include_recipe "nelhage::login_packages"
 
 apt_repository 'livegrep' do
   uri 'http://ppa.launchpad.net/nelhage/livegrep/ubuntu'
