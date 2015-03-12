@@ -1,5 +1,5 @@
 apt_repository 'cassou_emacs' do
-  uri 'http://ppa.launchpad.net/cassou/emacs/ubuntu'
+  uri 'http://ppa.launchpad.net/ubuntu-elisp/ppa/ubuntu'
   distribution node['lsb']['codename']
   components ['main']
   keyserver "keyserver.ubuntu.com"
