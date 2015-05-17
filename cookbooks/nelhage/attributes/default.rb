@@ -10,3 +10,5 @@ default['livegrep']['linux']['version'] = 'v3.17'
 default['livegrep']['linux']['port'] = '9999'
 
 default['go']['version'] = '1.4.2'
+
+default['nelhage']['rbenv']['version'] = '2.1.5'
