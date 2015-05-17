@@ -1,10 +1,3 @@
-file '/home/nelhage/.ssh/id_rsa' do
-  action :create
-  owner  'nelhage'
-  mode   '0600'
-  content node['nelhage']['users']['id_rsa']
-end
-
 ssh_known_hosts_entry 'nelhage.com'
 
 git '/home/nelhage/.dotfiles' do
