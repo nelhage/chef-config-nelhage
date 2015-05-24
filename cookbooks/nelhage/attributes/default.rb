@@ -11,4 +11,4 @@ default['livegrep']['linux']['port'] = '9999'
 
 default['go']['version'] = '1.4.2'
 
-default['nelhage']['rbenv']['version'] = '2.1.5'
+default['nelhage']['ruby']['version'] = '2.1.5'

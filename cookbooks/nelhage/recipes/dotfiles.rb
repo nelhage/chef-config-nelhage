@@ -1,4 +1,4 @@
-ssh_known_hosts_entry 'nelhage.com'
+ssh_known_hosts_entry ['nelhage.com', 'github.com', 'ssh.github.com']
 
 git '/home/nelhage/.dotfiles' do
   repository "git@nelhage.com:dotfiles"
