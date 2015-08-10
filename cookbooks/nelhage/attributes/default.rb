@@ -6,7 +6,7 @@ default['postfix']['main']['smtp_tls_CAfile'] = '/etc/ssl/certs/ca-certificates.
 
 default['nelhage']['users']['extra_groups'] = %w[sudo]
 
-default['livegrep']['linux']['version'] = 'v3.17'
+default['livegrep']['linux']['version'] = 'v4.1'
 default['livegrep']['linux']['port'] = '9999'
 
 default['go']['version'] = '1.4.2'
