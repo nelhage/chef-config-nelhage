@@ -18,4 +18,8 @@ server {
   add_header Strict-Transport-Security max-age=31536000;
 
   root /opt/www/blog.nelhage.com/;
+
+  location /2015/07/indices-point-between-elements/ {
+    rewrite ^ /2015/08/indices-point-between-elements/ permanent;
+  }
 }
