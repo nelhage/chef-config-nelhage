@@ -24,6 +24,10 @@ package 'libxml2-dev' do
   action :upgrade
 end
 
+package 'libreadline-dev' do
+  action :upgrade
+end
+
 execute "rbenv install #{node['nelhage']['ruby']['version']}" do
   user 'nelhage'
   environment(

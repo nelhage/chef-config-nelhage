@@ -9,7 +9,14 @@ directory '/etc/sv' do
   mode '0755'
 end
 
-service 'svscan' do
-  provider Chef::Provider::Service::Upstart
-  action :start
+if node['lsb']['release'] < '15.10'
+  service 'svscan' do
+    provider Chef::Provider::Service::Upstart
+    action :start
+  end
+else
+  service 'daemontools' do
+    provider Chef::Provider::Service::Systemd
+    action :start
+  end
 end
