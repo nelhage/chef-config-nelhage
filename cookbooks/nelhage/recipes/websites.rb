@@ -1,23 +1,5 @@
 include_recipe "nelhage::nginx"
 
-template 'ssl.conf' do
-  path   "#{node['nginx']['dir']}/conf.d/ssl.conf"
-  source 'ssl.conf.erb'
-  owner  'root'
-  group  'root'
-  mode   '0644'
-  notifies :reload, 'service[nginx]'
-end
-
-cookbook_file 'dhparam.pem' do
-  path '/etc/ssl/certs/dhparam.pem'
-  source 'dhparam.pem'
-  owner 'root'
-  group 'root'
-  mode  '0644'
-  notifies :reload, 'service[nginx]'
-end
-
 def nginx_site(domain)
   template domain do
     path   "#{node['nginx']['dir']}/conf.d/#{domain}.conf"
@@ -47,4 +29,3 @@ file "/etc/ssl/certs/blog.nelhage.com.pem" do
   group   'root'
   mode    '0600'
 end
-
