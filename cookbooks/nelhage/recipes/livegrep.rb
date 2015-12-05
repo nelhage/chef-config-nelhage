@@ -1,5 +1,6 @@
 include_recipe "nelhage"
 include_recipe "nelhage::nginx"
+include_recipe "nelhage::letsencrypt"
 include_recipe "nelhage::login_packages"
 
 apt_repository 'livegrep' do
@@ -45,6 +46,13 @@ directory '/opt/livegrep/' do
   mode   '755'
 end
 
+directory '/opt/livegrep/web' do
+  action :create
+  owner  'nelhage'
+  group  'www-data'
+  mode   '755'
+end
+
 template 'linux-index.json' do
   path '/opt/livegrep/linux-index.json'
   action :create
@@ -81,4 +89,10 @@ end
 nelhage_service "livegrep-linux" do
   command "/opt/services/livegrep/current/bin/codesearch --load_index /opt/livegrep/linux.idx --listen tcp://127.0.0.1:#{node['livegrep']['linux']['port']}"
   user "nelhage"
+end
+
+template '/etc/letsencrypt/cli.ini' do
+  source 'livegrep-letsencrypt.ini.erb'
+  user 'root'
+  group 'root'
 end
