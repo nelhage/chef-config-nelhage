@@ -26,7 +26,9 @@ ZEPHYR_DEPS = %w[libzephyr4-krb5 libzephyr-dev comerr-dev krb5-user zephyr-clien
 BUILD_DEPS = %w[build-essential texinfo pkg-config libperl-dev
    libssl-dev autoconf libncursesw5-dev libglib2.0-dev zip
    liblocal-lib-perl libxml2-dev libxslt-dev cython
-   libsqlite3-dev]
+   libsqlite3-dev libjson0-dev libgflags-dev libgit2-dev libboost-dev
+   libsparsehash-dev libboost-filesystem-dev
+   libboost-system-dev cmake]
 MISC_PACKAGES = %w[ncdu stow mutt irssi
                    mosh finger ntp]
 
