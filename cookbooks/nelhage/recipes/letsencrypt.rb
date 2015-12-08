@@ -1,3 +1,10 @@
+%w[python-virtualenv python-dev dialog libaugeas0
+    libssl-dev libffi-dev ca-certificates].each do |p|
+  package p do
+    action :upgrade
+  end
+end
+
 directory '/opt/letsencrypt' do
   action :create
   owner 'nelhage'
