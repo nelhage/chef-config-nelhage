@@ -4,5 +4,5 @@
     --keyfile /etc/tarsnap/tarsnap.key \
     --cachedir /data/tarsnap.cache/ \
     -c -f "nelhage.com-$(date +%Y%m%d-%H%M)" \
-    --exclude '/home/nelhage/code/all-github/' \
+    --exclude '/data/home/nelhage/code/all-github' \
     /data/archived /data/backup /opt /data/home 2>&1 | /opt/go/bin/unilog /data/log/tarsnap.log
