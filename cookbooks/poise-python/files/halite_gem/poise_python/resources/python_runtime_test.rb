@@ -40,7 +40,7 @@ module PoisePython
         attribute(:path, kind_of: String, default: lazy { default_path })
 
         def default_path
-          ::File.join('', 'root', "python_test_#{name}")
+          ::File.join('', 'opt', "python_test_#{name}")
         end
       end
 
@@ -58,7 +58,9 @@ module PoisePython
         def action_run
           notifying_block do
             # Top level directory for this test.
-            directory new_resource.path
+            directory new_resource.path do
+              mode '777'
+            end
 
             # Install and log the version.
             python_runtime new_resource.name do
@@ -117,6 +119,11 @@ module PoisePython
             test_import('pytest', 'pytest_venv', python: nil, virtualenv: ::File.join(new_resource.path, 'venv'))
 
             # Create and install a requirements file.
+            # Running this in a venv because of pip 8.0 and Ubuntu packaing
+            # both requests and six.
+            python_virtualenv ::File.join(new_resource.path, 'venv2') do
+              python new_resource.name
+            end
             file ::File.join(new_resource.path, 'requirements.txt') do
               content <<-EOH
 requests==2.7.0
@@ -124,10 +131,48 @@ six==1.8.0
 EOH
             end
             pip_requirements ::File.join(new_resource.path, 'requirements.txt') do
+              virtualenv ::File.join(new_resource.path, 'venv2')
+            end
+            test_import('requests', python: nil, virtualenv: ::File.join(new_resource.path, 'venv2'))
+            test_import('six', python: nil, virtualenv: ::File.join(new_resource.path, 'venv2'))
+
+            # Install a non-latest version of a package.
+            python_virtualenv ::File.join(new_resource.path, 'venv3') do
               python new_resource.name
             end
-            test_import('requests')
-            test_import('six')
+            python_package 'requests' do
+              version '2.8.0'
+              virtualenv ::File.join(new_resource.path, 'venv3')
+            end
+            test_import('requests', 'requests_version', python: nil, virtualenv: ::File.join(new_resource.path, 'venv3'))
+
+            # Create a non-root user and test installing with it.
+            test_user = "py#{new_resource.name}"
+            test_home = ::File.join('', 'home', test_user)
+            group test_user do
+              system true
+            end
+            user test_user do
+              comment "Test user for python_runtime_test #{new_resource.name}"
+              gid test_user
+              home test_home
+              shell '/bin/false'
+              system true
+            end
+            directory test_home do
+              mode '700'
+              group test_user
+              user test_user
+            end
+            test_venv = python_virtualenv ::File.join(test_home, 'env') do
+              python new_resource.name
+              user test_user
+            end
+            python_package 'attrs' do
+              user test_user
+              virtualenv test_venv
+            end
+            test_import('attrs', 'attr', python: nil, virtualenv: test_venv, user: test_user)
           end
         end
 
@@ -157,7 +202,7 @@ EOH
           end
         end
 
-        def test_import(name, path=name, python: new_resource.name, virtualenv: nil)
+        def test_import(name, path=name, python: new_resource.name, virtualenv: nil, user: nil)
           # Only queue up this resource once, the ivar is just for tracking.
           @python_import_test ||= file ::File.join(new_resource.path, 'import_version.py') do
             user 'root'
@@ -175,6 +220,7 @@ EOH
 
           python_execute "#{@python_import_test.path} #{name} #{::File.join(new_resource.path, "import_#{path}")}" do
             python python if python
+            user user if user
             virtualenv virtualenv if virtualenv
           end
         end

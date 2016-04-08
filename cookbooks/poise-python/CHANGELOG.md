@@ -1,5 +1,23 @@
 # Poise-Python Changelog
 
+## v1.2.1
+
+* Compatibility with Pip 8.0.
+
+## v1.2.0
+
+* Add support for passing `user` and `group` to `pip_requirements`.
+* Allow passing a virtualenv resource object to the `virtualenv` property.
+* Update PyPy release versions.
+* Make the `python_virtualenv` resource check for `./bin/python` for idempotence
+  instead of the base path.
+* Support for packages with extras in `python_package`.
+* Support for point releases (7.1, 8.1, etc) of Debian in the `system` provider.
+
+## v1.1.2
+
+* Fix `PythonPackage#response_file_variables` for the Chef 12.6 initializer.
+
 ## v1.1.1
 
 * Fix passing options to the `python_package` resource.
