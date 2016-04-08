@@ -29,47 +29,44 @@ module PoisePython
     # (see PythonPackage::Resource)
     # @since 1.0.0
     module PythonPackage
-      # A Python snippet to hack pip a bit so `pip list --outdated` will show
-      # only the things we want and will understand version requirements.
-      # @api private
+      # A Python snippet to check which versions of things pip would try to
+      # install. Probably not 100% bulletproof.
       PIP_HACK_SCRIPT = <<-EOH
+import json
 import sys
 
-import pip
-try:
-    # >= 6.0
-    from pip.utils import get_installed_distributions
-except ImportError:
-    # <= 1.5.6
-    from pip.util import get_installed_distributions
+from pip.commands import InstallCommand
+from pip.index import PackageFinder
+from pip.req import InstallRequirement
+from pip._vendor import pkg_resources
 
-def replacement(*args, **kwargs):
-    import copy, sys
-    from pip._vendor import pkg_resources
-    dists = []
-    for raw_req in sys.argv[3:]:
-        if raw_req.startswith('-'):
-            continue
-        req = pkg_resources.Requirement.parse(raw_req)
-        dist = pkg_resources.working_set.by_key.get(req.key)
-        if dist:
-            # Don't mutate stuff from the global working set.
-            dist = copy.copy(dist)
-        else:
-            # Make a fake one.
-            dist = pkg_resources.Distribution(project_name=req.key, version='0')
-        # Fool the .key property into using our string.
-        dist._key = raw_req
-        dists.append(dist)
-    return dists
-try:
-    # For Python 2.
-    get_installed_distributions.func_code = replacement.func_code
-except AttributeError:
-    # For Python 3.
-    get_installed_distributions.__code__ = replacement.__code__
 
-sys.exit(pip.main())
+packages = {}
+cmd = InstallCommand()
+options, args = cmd.parse_args(sys.argv[1:])
+with cmd._build_session(options) as session:
+  if options.no_index:
+    index_urls = []
+  else:
+    index_urls = [options.index_url] + options.extra_index_urls
+  finder = PackageFinder(
+    find_links=options.find_links,
+    format_control=options.format_control,
+    index_urls=index_urls,
+    trusted_hosts=options.trusted_hosts,
+    allow_all_prereleases=options.pre,
+    process_dependency_links=options.process_dependency_links,
+    session=session,
+  )
+  find_all = getattr(finder, 'find_all_candidates', getattr(finder, '_find_all_versions', None))
+  for arg in args:
+    req = InstallRequirement.from_line(arg)
+    found = finder.find_requirement(req, True)
+    all_candidates = find_all(req.name)
+    candidate = [c for c in all_candidates if c.location == found]
+    if candidate:
+      packages[candidate[0].project.lower()] = str(candidate[0].version)
+json.dump(packages, sys.stdout)
 EOH
 
       # A `python_package` resource to manage Python installations using pip.
@@ -90,7 +87,6 @@ EOH
         %i{install upgrade remove}.each do |action|
           Poise::Helpers::ChefspecMatchers.create_matcher(:python_package, action)
         end
-
 
         # @!attribute group
         #   System group to install the package.
@@ -122,7 +118,7 @@ EOH
 
         # (see #response_file)
         def response_file_variables(arg=nil)
-          raise NoMethodError if arg
+          raise NoMethodError if arg && arg != {}
         end
 
         # (see #response_file)
@@ -165,8 +161,8 @@ EOH
             version_data[name][:current] = current
           end
           # Check for newer candidates.
-          outdated = pip_outdated(pip_requirements(resource.package_name, version)).stdout
-          parse_pip_outdated(outdated).each do |name, candidate|
+          outdated = pip_outdated(pip_requirements(resource.package_name, version, parse: true)).stdout
+          Chef::JSONCompat.parse(outdated).each do |name, candidate|
             # Merge candidates in to the existing versions.
             version_data[name][:candidate] = candidate
           end
@@ -176,13 +172,13 @@ EOH
             @candidate_version = []
             versions = []
             [resource.package_name].flatten.each do |name|
-              ver = version_data[name.downcase]
+              ver = version_data[parse_package_name(name).downcase]
               versions << ver[:current]
               @candidate_version << ver[:candidate]
             end
             resource.version(versions)
           else
-            ver = version_data[resource.package_name.downcase]
+            ver = version_data[parse_package_name(resource.package_name).downcase]
             resource.version(ver[:current])
             @candidate_version = ver[:candidate]
           end
@@ -223,11 +219,16 @@ EOH
         # @param name [String, Array<String>] Name or names for the packages.
         # @param version [String, Array<String>] Version or versions for the
         #   packages.
+        # @param parse [Boolean] Use parsed package names.
         # @return [Array<String>]
-        def pip_requirements(name, version)
+        def pip_requirements(name, version, parse: false)
           [name].flatten.zip([version].flatten).map do |n, v|
+            n = parse_package_name(n) if parse
             v = v.to_s.strip
-            if v.empty?
+            if n =~ /:\/\//
+              # Probably a URI.
+              n
+            elsif v.empty?
               # No version requirement, send through unmodified.
               n
             elsif v =~ /^\d/
@@ -241,7 +242,7 @@ EOH
 
         # Run a pip command.
         #
-        # @param pip_command [String] The pip subcommand to run (eg. install).
+        # @param pip_command [String, nil] The pip subcommand to run (eg. install).
         # @param pip_options [Array<String>] Options for the pip command.
         # @param opts [Hash] Mixlib::ShellOut options.
         # @return [Mixlib::ShellOut]
@@ -253,7 +254,7 @@ EOH
             "#{runner.join(' ')} #{pip_command} #{new_resource.options} #{Shellwords.join(pip_options)}"
           else
             # No special options, use an array to skip the extra /bin/sh.
-            runner + [pip_command] + pip_options
+            runner + (pip_command ? [pip_command] : []) + pip_options
           end
           # Set user and group.
           opts[:user] = new_resource.user if new_resource.user
@@ -283,25 +284,7 @@ EOH
         # @param requirements [Array<String>] Pip-formatted package requirements.
         # @return [Mixlib::ShellOut]
         def pip_outdated(requirements)
-          pip_command('list', %w{--outdated} + requirements, input: PIP_HACK_SCRIPT, pip_runner: %w{-})
-        end
-
-        # Parse the output from `pip list --outdate`. Returns a hash of package
-        # key to candidate version.
-        #
-        # @param text [String] Output to parse.
-        # @return [Hash<String, String>]
-        def parse_pip_outdated(text)
-          text.split(/\n/).inject({}) do |memo, line|
-            # Example of a line:
-            # boto (Current: 2.25.0 Latest: 2.38.0 [wheel])
-            if md = line.match(/^(\S+)\s+\(.*?latest:\s+([^\s,]+).*\)$/i)
-              memo[md[1].downcase] = md[2]
-            else
-              Chef::Log.debug("[#{new_resource}] Unparsable line in pip outdated: #{line}")
-            end
-            memo
-          end
+          pip_command(nil, requirements, input: PIP_HACK_SCRIPT, pip_runner: %w{-})
         end
 
         # Parse the output from `pip list`. Returns a hash of package key to
@@ -319,6 +302,25 @@ EOH
               Chef::Log.debug("[#{new_resource}] Unparsable line in pip list: #{line}")
             end
             memo
+          end
+        end
+
+        # Regexp for package URLs.
+        PACKAGE_NAME_URL = /:\/\/.*?#egg=(.*)$/
+
+        # Regexp for extras.
+        PACKAGE_NAME_EXTRA = /^(.*?)\[.*?\]$/
+
+        # Find the underlying name from a pip input sequence.
+        #
+        # @param raw_name [String] Raw package name.
+        # @return [String]
+        def parse_package_name(raw_name)
+          case raw_name
+          when PACKAGE_NAME_URL, PACKAGE_NAME_EXTRA
+            $1
+          else
+            raw_name
           end
         end
 
