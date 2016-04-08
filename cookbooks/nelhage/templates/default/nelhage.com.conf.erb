@@ -29,7 +29,7 @@ server {
   ssl_certificate /etc/letsencrypt/live/nelhage.com/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/nelhage.com/privkey.pem;
 
-  add_header Strict-Transport-Security max-age=31536000;
+  add_header Strict-Transport-Security "max-age=10886400; includeSubDomains; preload";
 
   charset utf-8;
 
