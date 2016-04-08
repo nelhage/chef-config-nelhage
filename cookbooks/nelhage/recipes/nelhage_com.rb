@@ -6,6 +6,7 @@ include_recipe "nelhage::money"
 include_recipe "nelhage::tarsnap"
 
 include_recipe "nelhage::packages"
+include_recipe "nelhage::letsencrypt"
 
 sysctl_param 'kernel.yama.ptrace_scope' do
   value '0'

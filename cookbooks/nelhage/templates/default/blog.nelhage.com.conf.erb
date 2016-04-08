@@ -12,12 +12,16 @@ server {
 
   server_name blog.nelhage.com;
 
-  ssl_certificate /etc/ssl/certs/blog.nelhage.com.pem;
-  ssl_certificate_key /etc/ssl/certs/blog.nelhage.com.pem;
+  ssl_certificate /etc/letsencrypt/live/nelhage.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/nelhage.com/privkey.pem;
 
   add_header Strict-Transport-Security max-age=31536000;
 
   root /opt/www/blog.nelhage.com/;
+
+  location /.well-known/ {
+    root /var/letsencrypt/;
+  }
 
   location /2015/07/indices-point-between-elements/ {
     rewrite ^ /2015/08/indices-point-between-elements/ permanent;
