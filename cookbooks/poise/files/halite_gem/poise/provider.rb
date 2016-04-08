@@ -1,5 +1,5 @@
 #
-# Copyright 2013-2015, Noah Kantrowitz
+# Copyright 2013-2016, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #
 
 require 'poise/helpers'
+require 'poise/utils'
 
 
 module Poise
@@ -35,6 +36,7 @@ module Poise
     include Poise::Helpers::IncludeRecipe
     include Poise::Helpers::LWRPPolyfill
     include Poise::Helpers::NotifyingBlock
+    include Poise::Utils::ShellOut
 
     # @!classmethods
     module ClassMethods
