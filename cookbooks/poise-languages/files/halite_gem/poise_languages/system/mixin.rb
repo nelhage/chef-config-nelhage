@@ -1,5 +1,5 @@
 #
-# Copyright 2015, Noah Kantrowitz
+# Copyright 2015-2016, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ module PoiseLanguages
       # @return [PoiseLanguages::System::Resource]
       def install_system_packages
         dev_package_overrides = system_dev_package_overrides
-        poise_languages_system options['package_name'] || system_package_name do
+        poise_languages_system system_package_name do
           # Otherwise use the default install action.
           action(:upgrade) if options['package_upgrade']
           parent new_resource
@@ -68,10 +68,12 @@ module PoiseLanguages
       # @api public
       # @return [String]
       def system_package_name
+        # If we have an override, just use that.
+        return options['package_name'] if options['package_name']
         # Look up all packages for this language on this platform.
-        system_packages = node.value_for_platform(self.class.packages)
+        system_packages = self.class.packages && node.value_for_platform(self.class.packages)
         if !system_packages && self.class.default_package
-          Chef::Log.debug("[#{new_resource}] No known packages for #{node['platform']} #{node['platform_version']}, defaulting to '#{self.class.default_package}'.")
+          Chef::Log.debug("[#{new_resource}] No known packages for #{node['platform']} #{node['platform_version']}, defaulting to '#{self.class.default_package}'.") if self.class.packages
           system_packages = Array(self.class.default_package)
         end
 

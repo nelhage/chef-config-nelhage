@@ -1,5 +1,5 @@
 #
-# Copyright 2015, Noah Kantrowitz
+# Copyright 2015-2016, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -133,7 +133,7 @@ module PoiseLanguages
         end
 
         Chef::Log.debug("[#{new_resource.parent}] Building package resource using #{packages.inspect}.")
-        @package_resource ||= if node.platform_family?('rhel', 'fedora', 'amazon')
+        @package_resource ||= if node.platform_family?('rhel', 'fedora', 'amazon', 'mac_os_x')
           # @todo Can't use multi-package mode with yum pending https://github.com/chef/chef/issues/3476.
           packages.map do |name, version|
             Chef::Resource::Package.new(name, run_context).tap do |r|
@@ -165,8 +165,9 @@ module PoiseLanguages
           # Grab the provider.
           provider = resource.provider_for_action(action)
           provider.action = action
-          # Check the candidate version if needed
-          patch_load_current_resource!(provider, new_resource.version)
+          # Check the candidate version if needed. With a manual package_version
+          # you get whatever you asked for.
+          patch_load_current_resource!(provider, new_resource.version) unless new_resource.package_version
           # Run our action.
           Chef::Log.debug("[#{new_resource.parent}] Running #{provider} with #{action}")
           provider.run_action(action)
@@ -188,7 +189,7 @@ module PoiseLanguages
           define_method(:load_current_resource) do
             super().tap do |_|
               each_package do |package_name, new_version, current_version, candidate_version|
-                unless candidate_version.start_with?(version)
+                unless candidate_version && candidate_version.start_with?(version)
                   raise PoiseLanguages::Error.new("Package #{package_name} would install #{candidate_version}, which does not match #{version.empty? ? version.inspect : version}. Please set the package_name or package_version provider options.")
                 end
               end

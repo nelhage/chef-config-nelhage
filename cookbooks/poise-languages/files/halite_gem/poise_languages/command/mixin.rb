@@ -1,5 +1,5 @@
 #
-# Copyright 2015, Noah Kantrowitz
+# Copyright 2015-2016, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 require 'shellwords'
 
-require 'chef/mixin/shell_out'
 require 'poise'
 
 require 'poise_languages/utils'
@@ -161,7 +160,7 @@ module PoiseLanguages
 
       # A mixin for providers that run language commands.
       module Provider
-        include Chef::Mixin::ShellOut
+        include Poise::Utils::ShellOut
 
         private
 
@@ -171,16 +170,12 @@ module PoiseLanguages
         # @param name [Symbol] Language name.
         # @param command_args [Array] Arguments to `shell_out`.
         # @return [Mixlib::ShellOut]
-        def language_command_shell_out(name, *command_args)
-          options = if command_args.last.is_a?(Hash)
-            command_args.pop.dup
-          else
-            {}
-          end
+        def language_command_shell_out(name, *command_args, **options)
           # Inject our environment variables if needed.
+          options[:environment] ||= {}
           parent = new_resource.send(:"parent_#{name}")
           if parent
-            options[:environment] = parent.send(:"#{name}_environment").merge(options[:environment] || {})
+            options[:environment].update(parent.send(:"#{name}_environment"))
           end
           # Inject other options.
           options[:timeout] ||= new_resource.timeout
@@ -193,7 +188,7 @@ module PoiseLanguages
           end
           Chef::Log.debug("[#{new_resource}] Running #{name} command: #{command.is_a?(Array) ? Shellwords.shelljoin(command) : command}")
           # Run the command
-          shell_out(command, options)
+          poise_shell_out(command, options)
         end
 
         # Run a command using the configured language via `shell_out!`.

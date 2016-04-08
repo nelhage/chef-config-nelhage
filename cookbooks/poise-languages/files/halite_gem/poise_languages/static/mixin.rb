@@ -1,5 +1,5 @@
 #
-# Copyright 2015, Noah Kantrowitz
+# Copyright 2015-2016, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -52,6 +52,7 @@ module PoiseLanguages
           version: options['static_version'],
           kernel: node['kernel']['name'].downcase,
           machine: node['kernel']['machine'],
+          machine_label: self.class.static_machine_label_wrapper(node, new_resource),
         }
       end
 
@@ -61,11 +62,12 @@ module PoiseLanguages
         attr_accessor :static_machines
         attr_accessor :static_url
         attr_accessor :static_strip_components
+        attr_accessor :static_retries
 
         def provides_auto?(node, resource)
           # Check that the version starts with our project name and the machine
           # we are on is supported.
-          resource.version.to_s =~ /^#{static_name}(-|$)/ && static_machines.include?(static_machine_label(node))
+          resource.version.to_s =~ /^#{static_name}(-|$)/ && static_machines.include?(static_machine_label_wrapper(node, resource))
         end
 
         # Set some default inversion provider options. Package name can't get
@@ -77,6 +79,8 @@ module PoiseLanguages
           super.merge({
             # Path to install the package. Defaults to /opt/name-version.
             path: nil,
+            # Number of times to retry failed downloads.
+            retries: static_retries,
             # Full version number for use in interpolation.
             static_version: static_version(node, resource),
             # Value to pass to tar --strip-components.
@@ -86,17 +90,18 @@ module PoiseLanguages
           })
         end
 
-        def static_options(name: nil, versions: [], machines: %w{linux-i686 linux-x86_64}, url: nil, strip_components: 1)
+        def static_options(name: nil, versions: [], machines: %w{linux-i686 linux-x86_64}, url: nil, strip_components: 1, retries: 5)
           raise PoiseLanguages::Error.new("Static archive URL is required, on #{self}") unless url
           self.static_name = name || provides.to_s
           self.static_versions = versions
           self.static_machines = Set.new(machines)
           self.static_url = url
           self.static_strip_components = strip_components
+          self.static_retries = retries
         end
 
         def static_version(node, resource)
-          raw_version = resource.version.gsub(/^#{static_name}(-|$)/, '')
+          raw_version = resource.version.to_s.gsub(/^#{static_name}(-|$)/, '')
           if static_versions.include?(raw_version)
             raw_version
           else
@@ -106,14 +111,26 @@ module PoiseLanguages
           end
         end
 
-        def static_machine_label(node)
+        def static_machine_label(node, _resource=nil)
           "#{node['kernel']['name'].downcase}-#{node['kernel']['machine']}"
+        end
+
+        # Wrapper for {#static_machine_label} because I need to add an argument.
+        # This preserves backwards compat.
+        #
+        # @api private
+        def static_machine_label_wrapper(node, resource)
+          args = [node]
+          arity = method(:static_machine_label).arity
+          args << resource if arity > 1 || arity < 0
+          static_machine_label(*args)
         end
 
         def included(klass)
           super
           klass.extend ClassMethods
         end
+
       end
 
       extend ClassMethods
