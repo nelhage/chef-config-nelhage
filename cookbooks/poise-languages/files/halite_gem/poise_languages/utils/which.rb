@@ -1,5 +1,5 @@
 #
-# Copyright 2015, Noah Kantrowitz
+# Copyright 2015-2016, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ module PoiseLanguages
         # Allow passing something other than the real env var.
         path ||= ENV['PATH']
         # Based on Chef::Mixin::Which#which
-        # Copyright 2010-2015, Chef Softare, Inc.
+        # Copyright 2010-2016, Chef Softare, Inc.
         paths = path.split(File::PATH_SEPARATOR) + extra_path
         paths.each do |candidate_path|
           filename = ::File.join(candidate_path, cmd)

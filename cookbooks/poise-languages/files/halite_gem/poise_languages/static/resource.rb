@@ -1,5 +1,5 @@
 #
-# Copyright 2015, Noah Kantrowitz
+# Copyright 2015-2016, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,6 +39,10 @@ module PoiseLanguages
       #   Directory to install to.
       #   @return [String]
       attribute(:path, kind_of: String, name_attribute: true)
+      # @!attribute download_retries
+      #   Number of times to retry failed downloads. Defaults to 5.
+      #   @return [Integer]
+      attribute(:download_retries, kind_of: Integer, default: 5)
       # @!attribute source
       #   URL to download from.
       #   @return [String]
@@ -68,9 +72,8 @@ module PoiseLanguages
       # @return [void]
       def action_install
         notifying_block do
-          install_utils unless node.platform_family?('mac_os_x', 'windows')
-          create_directory
           download_archive
+          create_directory
           # Unpack is handled as a notification from download_archive.
         end
       end
@@ -87,20 +90,13 @@ module PoiseLanguages
 
       private
 
-      def install_utils
-        package [].tap {|utils|
-          utils << 'tar' if new_resource.cache_path =~ /\.t(ar|gz|bz|xz)/
-          utils << 'bzip2' if new_resource.cache_path =~ /\.t?bz/
-          # This probably won't work on RHEL?
-          utils << 'xz-utils' if new_resource.cache_path =~ /\.t?xz/
-        }
-      end
-
       def create_directory
+        unpack_resource = unpack_archive
         directory new_resource.path do
           user 0
           group 0
           mode '755'
+          notifies :unpack, unpack_resource, :immediately
         end
       end
 
@@ -111,31 +107,17 @@ module PoiseLanguages
           owner 0
           group 0
           mode '644'
-          notifies :run, unpack_resource, :immediately
+          notifies :unpack, unpack_resource, :immediately if ::File.exist?(new_resource.path)
+          retries new_resource.download_retries
         end
       end
 
       def unpack_archive
-        # Build up the unpack command. Someday this will probably need to
-        # support unzip too.
-        cmd = %w{tar}
-        cmd << "--strip-components=#{new_resource.strip_components}" if new_resource.strip_components && new_resource.strip_components > 0
-        cmd << if new_resource.cache_path =~ /\.t?gz/
-          '-xzvf'
-        elsif new_resource.cache_path =~ /\.t?bz/
-          '-xjvf'
-        elsif new_resource.cache_path =~ /\.t?xz/
-          '-xJvf'
-        else
-          '-xvf'
-        end
-        cmd << new_resource.cache_path
-
-        execute 'unpack archive' do
-          # Run via notification from #download_archive.
+        @unpack_archive ||= poise_archive new_resource.cache_path do
+          # Run via notification from #download_archive and #create_directory.
           action :nothing
-          command cmd
-          cwd new_resource.path
+          destination new_resource.path
+          strip_components new_resource.strip_components
         end
       end
 
