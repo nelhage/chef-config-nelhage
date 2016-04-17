@@ -7,6 +7,8 @@ include_recipe "nelhage::tarsnap"
 
 include_recipe "nelhage::packages"
 include_recipe "nelhage::letsencrypt"
+include_recipe "nelhage::aws"
+include_recipe "nelhage::duplicity"
 
 sysctl_param 'kernel.yama.ptrace_scope' do
   value '0'

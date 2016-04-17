@@ -28,7 +28,7 @@ BUILD_DEPS = %w[build-essential texinfo pkg-config libperl-dev
    liblocal-lib-perl libxml2-dev libxslt-dev cython
    libsqlite3-dev libjson0-dev libgflags-dev libgit2-dev libboost-dev
    libsparsehash-dev libboost-filesystem-dev
-   libboost-system-dev cmake]
+   libboost-system-dev cmake rng-tools]
 MISC_PACKAGES = %w[ncdu stow mutt irssi
                    mosh finger ntp]
 
