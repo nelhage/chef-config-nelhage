@@ -1,0 +1,15 @@
+#!/bin/bash
+
+env PASSPHRASE= eatmydata duplicity \
+    --asynchronous-upload \
+    --tempdir /data/duplicity/tmp \
+    --archive-dir /data/duplicity/archive \
+    -v notice \
+    --full-if-older-than 1M \
+    --s3-use-ia \
+    --encrypt-key 180CCAEC \
+    --include /data \
+    --include /opt \
+    --exclude '**' / \
+    s3://s3-us-west-2.amazonaws.com/nelhage-backups/nelhage.com 2>&1 \
+    | /opt/go/bin/unilog /data/log/duplicity.log
