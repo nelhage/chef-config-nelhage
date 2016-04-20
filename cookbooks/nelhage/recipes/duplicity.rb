@@ -1,7 +1,15 @@
-['duplicity', 'eatmydata'].each do |p|
-  package p do
-    action :install
-  end
+apt_repository 'duplicity' do
+  uri 'http://ppa.launchpad.net/duplicity-team/ppa/ubuntu'
+  distribution node['lsb']['codename']
+  components ['main']
+  keyserver "keyserver.ubuntu.com"
+  key "AF953139C1DF9EF3476DE1D58F571BB27A86F4A2"
+  action :add
+  notifies :run, "execute[apt-get update]", :immediately
+end
+
+package 'duplicity' do
+  action :install
 end
 
 python_pip 'boto' do
