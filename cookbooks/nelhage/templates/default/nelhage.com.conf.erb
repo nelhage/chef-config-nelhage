@@ -35,8 +35,8 @@ server {
 
   root /opt/www/nelhage.com/;
 
-  location /.well-known/ {
-    root /var/letsencrypt/;
+  location /.well-known/acme-challenge/ {
+    root /var/letsencrypt/.well-known/acme-challenge/;
   }
 
   location /blog {
