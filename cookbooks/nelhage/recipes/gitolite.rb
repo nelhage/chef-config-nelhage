@@ -1,6 +1,6 @@
-package "gitolite" do
+package "gitolite3" do
   action :install
-  response_file "gitolite.seed.erb"
+  response_file "gitolite3.seed.erb"
 end
 
 package "openbsd-inetd" do
