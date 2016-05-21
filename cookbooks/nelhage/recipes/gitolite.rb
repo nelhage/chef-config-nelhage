@@ -1,6 +1,12 @@
-package "gitolite3" do
+if node['lsb']['release'] < '16.04'
+  package = 'gitolite'
+else
+  package = 'gitolite3'
+end
+
+package package do
   action :install
-  response_file "gitolite3.seed.erb"
+  response_file "#{package}.seed.erb"
 end
 
 package "openbsd-inetd" do
