@@ -11,5 +11,5 @@ env PASSPHRASE= duplicity \
     --include /data \
     --include /opt \
     --exclude '**' / \
-    s3://s3-us-west-2.amazonaws.com/nelhage-backups/nelhage.com 2>&1 \
+    "s3://s3-us-west-2.amazonaws.com/nelhage-backups/$(hostname -f)" 2>&1 \
     | /opt/go/bin/unilog /data/log/duplicity.log
