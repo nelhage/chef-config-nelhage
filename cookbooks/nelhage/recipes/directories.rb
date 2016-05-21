@@ -33,9 +33,21 @@ directory '/data/log' do
   mode   '755'
 end
 
+directory '/data/log/journal' do
+  action :create
+  owner  'root'
+  group  'root'
+  mode   '755'
+end
+
 directory '/data/backup' do
   action :create
   owner 'root'
   group 'root'
   mode  '1777'
+end
+
+link '/var/log/journal' do
+  to '/data/log/journal'
+  link_type :symbolic
 end
