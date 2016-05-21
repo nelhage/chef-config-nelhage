@@ -2,36 +2,22 @@ service_params = {
   :user    => 'root',
   :command => nil,
   :action  => [ :enable, :start ],
-  :owner   => 'root',
-  :group   => 'root',
-  :rotate  => true
 }
 
 define :nelhage_service, service_params do
-  include_recipe "nelhage::daemontools"
+  template "#{params[:name]}.service" do
+    path "/etc/systemd/system/#{params[:name]}.service"
+    source "systemd-service.erb"
 
-  daemontools_service params[:name] do
-    directory "/etc/sv/#{params[:name]}"
-    cookbook 'nelhage'
-    template 'generic'
-    variables(:service => params[:name],
-      :user    => params[:user],
-      :command => params[:command])
-    log true
-    action params[:action]
-    owner params[:owner]
-    group params[:group]
+    owner 'root'
+    group 'root'
+    mode '0644'
+
+    variables :params => params
   end
 
-  if params[:rotate]
-    name = params[:name]
-    logrotate_app "daemontools-#{params[:name]}" do
-      path       "/data/log/#{name}.log"
-      frequency  'daily'
-      rotate     365
-      compress   true
-      dateext    true
-      postrotate "svc -h /etc/service/#{name}/log"
-    end
+  service params[:name] do
+    provider Chef::Provider::Service::Systemd
+    action params[:action]
   end
 end

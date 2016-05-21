@@ -1,0 +1,7 @@
+[Unit]
+Description=<%= @params[:description] || @params[:name] %>
+
+[Service]
+ExecStart=<%= @params[:command] %>
+User=<%= @params[:user] %>
+Restart=always

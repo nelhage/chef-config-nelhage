@@ -4,7 +4,6 @@ package 'nodejs' do
 end
 
 nelhage_service "money-srv" do
-  command 'node /opt/services/nelhage.com-money/serve.js'
+  command '/usr/bin/nodejs /opt/services/nelhage.com-money/serve.js'
   user 'nelhage'
-  rotate false
 end
