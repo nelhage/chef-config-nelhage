@@ -4,14 +4,7 @@ nelhage_service 'taklogger' do
 end
 
 nelhage_service 'taktician' do
-  command [
-    "/home/nelhage/code/go/bin/taktician",
-    "-debug #{node['taktician']['debug']}",
-    "-depth #{node['taktician']['depth']}",
-    "-time #{node['taktician']['time']}",
-    "-user #{node['taktician']['user']}",
-    "-pass #{node['taktician']['password']}",
-    "-size #{node['taktician']['size']}"
-  ].join(' ')
+  command ("/home/nelhage/code/go/bin/taktician " +
+           node['taktician'].map { |k,v| "-#{k}=#{v}" }.join(" "))
   user 'nelhage'
 end
