@@ -5,3 +5,6 @@ Description=<%= @params[:description] || @params[:name] %>
 ExecStart=<%= @params[:command] %>
 User=<%= @params[:user] %>
 Restart=always
+<% if !@params.fetch(:sigkill, true) -%>
+SendSIGKILL=false
+<% end %>

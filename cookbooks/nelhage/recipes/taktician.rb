@@ -7,4 +7,5 @@ nelhage_service 'taktician' do
   command ("/home/nelhage/code/go/bin/taktician " +
            node['taktician'].map { |k,v| "-#{k}=#{v}" }.join(" "))
   user 'nelhage'
+  sigkill false
 end
