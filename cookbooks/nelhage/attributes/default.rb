@@ -5,9 +5,11 @@ default['postfix']['main']['smtp_tls_CAfile'] = '/etc/ssl/certs/ca-certificates.
 
 default['nelhage']['users']['extra_groups'] = %w[sudo]
 
-default['livegrep']['linux']['version'] = 'v4.1'
-default['livegrep']['linux']['port'] = '9999'
-
-default['go']['version'] = '1.4.2'
+default['go']['version'] = '1.6.2'
 
 default['nelhage']['ruby']['version'] = '2.1.5'
+
+default['taktician']['debug'] = 2
+default['taktician']['depth'] = 6
+default['taktician']['time'] = '30m'
+default['taktician']['size'] = 5

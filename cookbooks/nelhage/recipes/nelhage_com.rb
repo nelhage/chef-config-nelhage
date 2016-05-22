@@ -3,6 +3,7 @@ include_recipe "nelhage"
 include_recipe "nelhage::websites"
 include_recipe "nelhage::gitolite"
 include_recipe "nelhage::money"
+include_recipe "nelhage::taktician"
 # include_recipe "nelhage::tarsnap"
 
 include_recipe "nelhage::packages"
