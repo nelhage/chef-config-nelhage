@@ -3,9 +3,11 @@ nelhage_service 'taklogger' do
   user 'nelhage'
 end
 
-nelhage_service 'taktician' do
-  command ("/home/nelhage/code/go/bin/taktician " +
-           node['taktician'].map { |k,v| "-#{k}=#{v}" }.join(" "))
-  user 'nelhage'
-  sigkill false
+node['tak'].each do |name, opts|
+  nelhage_service name do
+    command ("/home/nelhage/code/go/bin/taktician " +
+             opts.map { |k,v| "-#{k}=#{v}" }.join(" "))
+    user 'nelhage'
+    sigkill false
+  end
 end
