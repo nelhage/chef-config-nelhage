@@ -14,6 +14,7 @@ define :nelhage_service, service_params do
     mode '0644'
 
     variables :params => params
+    notifies :run, "execute[systemctl daemon-reload]", :immediately
   end
 
   service params[:name] do
