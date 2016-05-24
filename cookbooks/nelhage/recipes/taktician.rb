@@ -9,5 +9,6 @@ node['tak'].each do |name, opts|
              opts.map { |k,v| "-#{k}=#{v}" }.join(" "))
     user 'nelhage'
     sigkill false
+    restart_secs 5
   end
 end

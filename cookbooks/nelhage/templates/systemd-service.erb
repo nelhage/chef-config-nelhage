@@ -7,4 +7,7 @@ User=<%= @params[:user] %>
 Restart=always
 <% if !@params.fetch(:sigkill, true) -%>
 SendSIGKILL=false
-<% end %>
+<% end -%>
+<% if @params[:restart_secs] -%>
+RestartSecs=<%= @params[:restart_secs] %>
+<% end -%>
