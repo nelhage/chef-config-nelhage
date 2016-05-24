@@ -9,5 +9,8 @@ Restart=always
 SendSIGKILL=false
 <% end -%>
 <% if @params[:restart_secs] -%>
-RestartSecs=<%= @params[:restart_secs] %>
+RestartSec=<%= @params[:restart_secs] %>
+<% end -%>
+<% if @params[:timeout_stop_sec] -%>
+TimeoutStopSec=<%= @params[:timeout_stop_sec] %>
 <% end -%>
