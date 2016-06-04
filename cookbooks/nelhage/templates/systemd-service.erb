@@ -8,8 +8,8 @@ Restart=always
 <% if !@params.fetch(:sigkill, true) -%>
 SendSIGKILL=false
 <% end -%>
-<% if @params[:restart_secs] -%>
-RestartSec=<%= @params[:restart_secs] %>
+<% if @params[:restart_sec] -%>
+RestartSec=<%= @params[:restart_sec] %>
 <% end -%>
 <% if @params[:timeout_stop_sec] -%>
 TimeoutStopSec=<%= @params[:timeout_stop_sec] %>
