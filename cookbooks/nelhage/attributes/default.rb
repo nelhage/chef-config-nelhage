@@ -10,3 +10,20 @@ default['go']['version'] = '1.6.2'
 default['nelhage']['ruby']['version'] = '2.1.5'
 
 default['tak'] = {}
+default['tak']['taktician'] = {
+  "user" => "TakticianBot",
+  "size" => 5,
+  "debug" => 2,
+  "depth" => 0,
+  "limit" => "1m",
+  "time" => "20m",
+  "increment" => "30s",
+}
+default['tak']['friendlybot'] = {
+  "user" => "FriendlyBot",
+  "debug" => 1,
+  "size" => 5,
+  "time" => "15m",
+  "increment" => "30s",
+  "friendly" => true,
+}
