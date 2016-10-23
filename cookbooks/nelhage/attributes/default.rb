@@ -15,7 +15,7 @@ default['tak']['taktician'] = {
   "size" => 5,
   "debug" => 2,
   "depth" => 0,
-  "limit" => "1m",
+  "limit" => "30s",
   "time" => "20m",
   "increment" => "30s",
 }
@@ -23,6 +23,7 @@ default['tak']['friendlybot'] = {
   "user" => "FriendlyBot",
   "debug" => 1,
   "size" => 5,
+  "limit" => "30s",
   "time" => "15m",
   "increment" => "30s",
   "friendly" => true,
