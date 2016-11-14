@@ -28,3 +28,13 @@ default['tak']['friendlybot'] = {
   "increment" => "30s",
   "friendly" => true,
 }
+default['tak']['fpabot'] = {
+  "user" => "FPABot",
+  "debug" => 1,
+  "size" => 5,
+  "limit" => "30s",
+  "time" => "15m",
+  "increment" => "30s",
+  "friendly" => true,
+  "fpa" => true,
+}
