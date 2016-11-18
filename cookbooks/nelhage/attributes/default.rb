@@ -18,6 +18,7 @@ default['tak']['taktician'] = {
   "limit" => "30s",
   "time" => "20m",
   "increment" => "30s",
+  "multi-cut" => true,
 }
 default['tak']['friendlybot'] = {
   "user" => "FriendlyBot",
@@ -27,6 +28,7 @@ default['tak']['friendlybot'] = {
   "time" => "15m",
   "increment" => "30s",
   "friendly" => true,
+  "multi-cut" => true,
 }
 default['tak']['fpabot'] = {
   "user" => "FPABot",
@@ -37,4 +39,5 @@ default['tak']['fpabot'] = {
   "increment" => "30s",
   "friendly" => true,
   "fpa" => true,
+  "multi-cut" => true,
 }
