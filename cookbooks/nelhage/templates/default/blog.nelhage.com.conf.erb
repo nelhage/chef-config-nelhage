@@ -27,7 +27,11 @@ server {
     rewrite ^ /2015/08/indices-point-between-elements/ permanent;
   }
 
-   location /blog/archives {
+  location /blog/archives {
     rewrite ^ /post/ permanent;
+  }
+
+  location /feed {
+    rewrite ^ /atom.xml permanent;
   }
 }
