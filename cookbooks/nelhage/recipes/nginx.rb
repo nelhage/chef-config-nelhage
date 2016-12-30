@@ -19,6 +19,15 @@ template 'ssl.conf' do
   notifies :reload, 'service[nginx]'
 end
 
+template 'nginx-logs.conf' do
+  path   "#{node['nginx']['dir']}/conf.d/nginx-logs.conf"
+  source 'nginx-logs.conf.erb'
+  owner  'root'
+  group  'root'
+  mode   '0644'
+  notifies :reload, 'service[nginx]'
+end
+
 cookbook_file 'dhparam.pem' do
   path '/etc/ssl/certs/dhparam.pem'
   source 'dhparam.pem'
