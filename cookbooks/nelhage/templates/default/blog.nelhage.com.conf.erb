@@ -26,4 +26,8 @@ server {
   location /2015/07/indices-point-between-elements/ {
     rewrite ^ /2015/08/indices-point-between-elements/ permanent;
   }
+
+   location /blog/archives {
+    rewrite ^ /post/ permanent;
+  }
 }
