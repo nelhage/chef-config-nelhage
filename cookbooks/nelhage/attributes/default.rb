@@ -29,6 +29,7 @@ default['tak']['friendlybot'] = {
   "increment" => "30s",
   "friendly" => true,
   "multi-cut" => true,
+  "log-file" => "/home/nelhage/code/go/src/github.com/nelhage/taktician/games/friendly.log",
 }
 default['tak']['fpabot'] = {
   "user" => "FPABot",
@@ -40,4 +41,5 @@ default['tak']['fpabot'] = {
   "friendly" => true,
   "fpa" => true,
   "multi-cut" => true,
+  "log-file" => "/home/nelhage/code/go/src/github.com/nelhage/taktician/games/fpa.log",
 }
