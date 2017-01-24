@@ -33,3 +33,10 @@ directory '/etc/letsencrypt/' do
   user 'root'
   group 'root'
 end
+
+cron_d 'letsencrypt-renew' do
+  action :create
+  minute "47"
+  hour "8"
+  command "/opt/letsencrypt/venv/bin/letsencrypt renew --post-hook 'service nginx reload'"
+end
