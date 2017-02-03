@@ -18,7 +18,6 @@ default['tak']['taktician'] = {
   "limit" => "30s",
   "time" => "20m",
   "increment" => "30s",
-  "multi-cut" => true,
 }
 default['tak']['friendlybot'] = {
   "user" => "FriendlyBot",
@@ -28,7 +27,6 @@ default['tak']['friendlybot'] = {
   "time" => "15m",
   "increment" => "30s",
   "friendly" => true,
-  "multi-cut" => true,
   "log-file" => "/home/nelhage/code/go/src/github.com/nelhage/taktician/games/friendly.log",
 }
 default['tak']['fpabot'] = {
@@ -38,8 +36,18 @@ default['tak']['fpabot'] = {
   "limit" => "30s",
   "time" => "15m",
   "increment" => "30s",
-  "friendly" => true,
+  "friendly" => 'center',
   "fpa" => true,
-  "multi-cut" => true,
   "log-file" => "/home/nelhage/code/go/src/github.com/nelhage/taktician/games/fpa.log",
+}
+default['tak']['doublestackbot'] = {
+  "user" => "DoubleStackBot",
+  "debug" => 1,
+  "size" => 5,
+  "limit" => "30s",
+  "time" => "15m",
+  "increment" => "30s",
+  "friendly" => true,
+  "fpa" => 'doublestack',
+  "log-file" => "/home/nelhage/code/go/src/github.com/nelhage/taktician/games/doublestack.log",
 }
