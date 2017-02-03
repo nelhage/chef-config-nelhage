@@ -54,4 +54,8 @@ server {
   location /money/ajax/ {
     proxy_pass http://127.0.0.1:19080$uri;
   }
+
+  location /.git {
+    return 404;
+  }
 }
