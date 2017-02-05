@@ -36,8 +36,8 @@ default['tak']['fpabot'] = {
   "limit" => "30s",
   "time" => "15m",
   "increment" => "30s",
-  "friendly" => 'center',
-  "fpa" => true,
+  "friendly" => true,
+  "fpa" => 'center',
   "log-file" => "/home/nelhage/code/go/src/github.com/nelhage/taktician/games/fpa.log",
 }
 default['tak']['doublestackbot'] = {
