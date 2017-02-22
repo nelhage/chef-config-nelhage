@@ -5,8 +5,6 @@ default['postfix']['main']['smtp_tls_CAfile'] = '/etc/ssl/certs/ca-certificates.
 
 default['nelhage']['users']['extra_groups'] = %w[sudo]
 
-default['go']['version'] = '1.7.4'
-
 default['nelhage']['ruby']['version'] = '2.1.5'
 
 default['tak'] = {}
