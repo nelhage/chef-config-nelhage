@@ -38,5 +38,5 @@ cron_d 'letsencrypt-renew' do
   action :create
   minute "47"
   hour "8"
-  command "/opt/letsencrypt/venv/bin/letsencrypt renew --post-hook 'service nginx reload'"
+  command "/opt/letsencrypt/venv/bin/letsencrypt renew --post-hook '/usr/sbin/service nginx reload' >/dev/null 2>&1"
 end
