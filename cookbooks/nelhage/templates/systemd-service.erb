@@ -14,3 +14,6 @@ RestartSec=<%= @params[:restart_sec] %>
 <% if @params[:timeout_stop_sec] -%>
 TimeoutStopSec=<%= @params[:timeout_stop_sec] %>
 <% end -%>
+
+[Install]
+WantedBy=default.target
