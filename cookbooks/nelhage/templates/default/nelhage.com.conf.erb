@@ -1,5 +1,5 @@
 server {
-  listen 80;
+  listen [::]:80 ipv6only=off;
   server_name nelhage.com;
 
   location / {
@@ -8,8 +8,8 @@ server {
 }
 
 server {
-  listen 80;
-  listen 443 ssl;
+  listen [::]:80;
+  listen [::]:443 ssl;
 
   server_name www.nelhage.com;
 
@@ -22,7 +22,7 @@ server {
 }
 
 server {
-  listen 443 ssl default;
+  listen [::]:443 ssl default ipv6only=off;
 
   server_name nelhage.com;
 

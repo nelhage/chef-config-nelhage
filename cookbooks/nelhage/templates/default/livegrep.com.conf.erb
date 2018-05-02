@@ -1,6 +1,6 @@
 server {
-  listen 80 default_server;
-  listen 443 ssl;
+  listen [::]:80 default_server;
+  listen [::]:443 ssl;
   server_name livegrep.com;
 
   ssl_certificate /etc/letsencrypt/live/livegrep.com/fullchain.pem;
@@ -12,7 +12,7 @@ server {
 }
 
 server {
-  listen 443 ssl;
+  listen [::]:443 ssl;
   server_name www.livegrep.com;
 
   ssl_certificate /etc/letsencrypt/live/livegrep.com/fullchain.pem;
