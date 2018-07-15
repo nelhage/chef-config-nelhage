@@ -29,6 +29,18 @@ default['tak']['friendlybot'] = {
   "friendly" => true,
   "log-file" => "/home/nelhage/go/src/github.com/nelhage/taktician/games/friendly.log",
 }
+default['tak']['cairnbot'] = {
+  "user" => "CairnBot",
+  "debug" => 1,
+  "size" => 6,
+  "limit" => "30s",
+  "time" => "15m",
+  "increment" => "30s",
+  "multi-cut" => true,
+  "friendly" => true,
+  "fpa" => 'cairn',
+  "log-file" => "/home/nelhage/go/src/github.com/nelhage/taktician/games/cairn.log",
+}
 
 # default['tak']['fpabot'] = {
 #   "user" => "FPABot",
