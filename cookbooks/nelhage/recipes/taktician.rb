@@ -6,7 +6,7 @@ end
 
 node['tak'].each do |name, opts|
   nelhage_service name do
-    command ("/home/nelhage/go/bin/taktician " +
+    command ("/home/nelhage/go/bin/taktician playtak " +
              opts.map { |k,v| "-#{k}=#{v}" }.join(" "))
     user 'nelhage'
     sigkill false
