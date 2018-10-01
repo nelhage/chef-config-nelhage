@@ -14,6 +14,8 @@ include_recipe "nelhage::users"
 include_recipe "nelhage::directories"
 include_recipe "nelhage::mail"
 
+include_recipe "nelhage::wireguard"
+
 execute 'systemctl daemon-reload' do
   command '/bin/systemctl daemon-reload'
   action :nothing
