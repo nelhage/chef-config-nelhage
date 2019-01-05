@@ -1,15 +1,23 @@
 #!/bin/bash
+exec 2>&1
+set -eux
 
-env PASSPHRASE= duplicity \
-    --asynchronous-upload \
-    --tempdir /data/duplicity/tmp \
-    --archive-dir /data/duplicity/archive \
-    -v notice \
-    --full-if-older-than 1M \
-    --s3-use-ia \
-    --encrypt-key 180CCAEC \
-    --include /data \
-    --include /opt \
-    --exclude '**' / \
-    "s3://s3-us-west-2.amazonaws.com/nelhage-backups/$(hostname -f)" 2>&1 \
-    | /opt/go/bin/unilog /data/log/duplicity.log
+run_duplicity() {
+    env PASSPHRASE= duplicity \
+        --asynchronous-upload \
+        --tempdir /data/duplicity/tmp \
+        --archive-dir /data/duplicity/archive \
+        -v notice \
+        --full-if-older-than 1M \
+        --s3-use-ia \
+        --encrypt-key 180CCAEC \
+        --include /data \
+        --include /opt \
+        --exclude '**' "$@" \
+        2>&1 | /opt/google/bin/unilog /data/log/duplicity.log
+}
+
+url="s3://s3-us-west-2.amazonaws.com/nelhage-backups/$(hostname -f)"
+
+run_duplicity "$url"
+run_duplicity remove-older-than 3M --force "$url"
