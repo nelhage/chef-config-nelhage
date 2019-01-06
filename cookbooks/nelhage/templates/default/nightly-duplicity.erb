@@ -1,6 +1,6 @@
 #!/bin/bash
 exec 2>&1
-set -eux
+set -eu
 
 run_duplicity() {
     env PASSPHRASE= duplicity \
@@ -14,7 +14,7 @@ run_duplicity() {
         --include /data \
         --include /opt \
         --exclude '**' "$@" \
-        2>&1 | /opt/google/bin/unilog /data/log/duplicity.log
+        2>&1 | /opt/go/bin/unilog /data/log/duplicity.log
 }
 
 url="s3://s3-us-west-2.amazonaws.com/nelhage-backups/$(hostname -f)"
