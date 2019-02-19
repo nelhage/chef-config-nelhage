@@ -1,9 +1,3 @@
-nelhage_service 'taklogger' do
-  command '/home/nelhage/go/bin/taklogger -out /home/nelhage/go/src/github.com/nelhage/taktician/games -index /home/nelhage/go/src/github.com/nelhage/taktician/games/games.db'
-  user 'nelhage'
-  restart_sec 5
-end
-
 node['tak'].each do |name, opts|
   nelhage_service name do
     command ("/home/nelhage/go/bin/taktician playtak " +
